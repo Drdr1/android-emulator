@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  android-emulator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: android-emulator
+    privileged: true # Required for emulator acceleration
+    ports:
+      - "6080:6080" # noVNC (emulator frame only)
+      - "5900:5900" # Full system VNC (optional)
+      - "5555:5555" # ADB for remote APK installation
+    environment:
+      - DEVICE=Samsung Galaxy S10
+      - WEB_VNC=true
+      - EMULATOR_FRAME_ONLY=true
+    volumes:
+      - emulator-data:/root/.android
+    devices:
+      - /dev/kvm:/dev/kvm # Optional, only if KVM is available
+
+volumes:
+  emulator-data:
